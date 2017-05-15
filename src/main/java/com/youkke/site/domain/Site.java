@@ -1,8 +1,13 @@
 package com.youkke.site.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -10,10 +15,12 @@ public class Site {
 	@Id
 	private String id;
 	private String userid;
-	private User user;
+	//private User user;
 	private String name;
 	private String filepath;
 	private String domainjson;
+	@OneToOne
+	@JoinColumn(name ="template_id")
 	private Template template;
 	public String getId() {
 		return id;
@@ -26,12 +33,6 @@ public class Site {
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
 	}
 	public String getName() {
 		return name;
