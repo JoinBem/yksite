@@ -2,6 +2,7 @@ package com.youkke.site.domain;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,6 +28,19 @@ public class Template {
 	@OneToMany(mappedBy = "template",cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<Temptag> temptag;
+	
+	public Template(String userid, String name, String title, String path, String content, String type, Double price){
+		this.id = UUID.randomUUID().toString().replaceAll("-", "");
+		this.userid = userid;
+		this.name = name;
+		this.title = title;
+		this.path = path;
+		this.content = content;
+		this.type = type;
+		this.price = price;
+		this.ctime = new Timestamp(System.currentTimeMillis());
+	}
+	
 	public String getId() {
 		return id;
 	}

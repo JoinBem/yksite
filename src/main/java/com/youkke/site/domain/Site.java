@@ -1,5 +1,7 @@
 package com.youkke.site.domain;
 
+import java.util.UUID;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,6 +24,14 @@ public class Site {
 	@OneToOne
 	@JoinColumn(name ="template_id")
 	private Template template;
+	
+	public Site(String userid, String name, String filepath, String domainjson){
+		this.id = UUID.randomUUID().toString().replaceAll("-", "");
+		this.name = name;
+		this.filepath = filepath;
+		this.domainjson = domainjson;
+	}
+	
 	public String getId() {
 		return id;
 	}

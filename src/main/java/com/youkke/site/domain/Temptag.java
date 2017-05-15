@@ -1,5 +1,7 @@
 package com.youkke.site.domain;
 
+import java.util.UUID;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,6 +19,14 @@ public class Temptag {
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JsonBackReference
 	private Template template;
+	
+	public Temptag(String file, String tagjson, Template template){
+		this.id = UUID.randomUUID().toString().replaceAll("-", "");
+		this.file = file;
+		this.tagjson = tagjson;
+		this.template = template;
+	}
+	
 	public String getId() {
 		return id;
 	}
