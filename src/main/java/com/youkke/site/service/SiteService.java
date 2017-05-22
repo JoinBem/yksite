@@ -23,7 +23,7 @@ public class SiteService {
 	private SiteDao siteDao;
 	
 	public void save(Site site){
-		siteDao.save(site);
+			siteDao.save(site);
 	}
 
 	public Site get(String userid){

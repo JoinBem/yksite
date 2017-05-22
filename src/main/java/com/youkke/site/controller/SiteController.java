@@ -54,19 +54,13 @@ public class SiteController<E> {
 	@GetMapping("/admin")
 	public String adminHtml(Model model){
 		Site site = siteService.get(sessuserid);
-		model.addAttribute("list", site);
-//		 ArrayList<JSONObject> list4 = JSON.parseObject(siteService.getDomain(sessuserid), ArrayList.class);   
-//	        for (int i = 0; i < list4.size(); i++) { //  推荐用这个  
-//	            JSONObject io = list4.get(i);  
-//	            System.out.println(io.get("domain") + "======adn=====");  
-//	        } 
 		JSONObject json = JSON.parseObject(siteService.getDomain(sessuserid));
-		System.err.println(json.get("domain"));
 		JSONArray array = JSON.parseArray(json.get("domain").toString());
 		ArrayList<String> temp = new ArrayList<String>();
-        for (int i = 0; i < array.size(); i++) { //  推荐用这个  
+        for (int i = 0; i < array.size(); i++) {
             temp.add(array.get(i).toString());
-        }  
+        }
+        model.addAttribute("list", site);
         model.addAttribute("domain", temp);
 		return "admin";
 	}
@@ -74,6 +68,11 @@ public class SiteController<E> {
 	@GetMapping("/input")
 	public String inputHtml(){
 		return "input";
+	}
+	
+	@GetMapping("/update")
+	public String updateHtml(){
+		return "update";
 	}
 	
 	@PostMapping("/input")
@@ -87,7 +86,7 @@ public class SiteController<E> {
 		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), json.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
 		Temptag temptag = new Temptag("index", "{ \"content\": [" +"\"info\", \"goods\", \"photos\"" +"]}", template);
 		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, json.toString(), template);
-		tempService.savetemp(template);
+		tempService.savetemp(template, jsonArray);
 		tempService.savetag(temptag);
 		siteService.save(site);
 		

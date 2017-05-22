@@ -40,4 +40,18 @@ public class TempDao {
 	public void updateTemp(Template temp){
 		getSession().update(temp);
 	}
+	
+	public Template getTempPath(String domain){
+		Template template = new Template();
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Template> query  = builder.createQuery(Template.class);
+			Root<Template> root =query.from(Template.class);
+			query.where(builder.equal(root.get("path"), domain));
+			template = entityManager.createQuery(query).getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+		return template;
+	}
 }
