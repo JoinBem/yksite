@@ -21,15 +21,21 @@ public class Site {
 	private String name;
 	private String filepath;
 	private String domainjson;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name ="template_id")
 	private Template template;
 	
-	public Site(String userid, String name, String filepath, String domainjson){
+	public Site(){
+		
+	}
+	
+	public Site(String userid, String name, String filepath, String domainjson, Template template){
 		this.id = UUID.randomUUID().toString().replaceAll("-", "");
+		this.userid = userid;
 		this.name = name;
 		this.filepath = filepath;
 		this.domainjson = domainjson;
+		this.template = template;
 	}
 	
 	public String getId() {

@@ -29,6 +29,11 @@ public class Template {
 	@JsonManagedReference
 	private List<Temptag> temptag;
 	
+	
+	public Template(){
+		
+	}
+	
 	public Template(String userid, String name, String title, String path, String content, String type, Double price){
 		this.id = UUID.randomUUID().toString().replaceAll("-", "");
 		this.userid = userid;

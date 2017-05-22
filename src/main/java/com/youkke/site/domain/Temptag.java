@@ -20,6 +20,10 @@ public class Temptag {
 	@JsonBackReference
 	private Template template;
 	
+	public Temptag(){
+		
+	}
+	
 	public Temptag(String file, String tagjson, Template template){
 		this.id = UUID.randomUUID().toString().replaceAll("-", "");
 		this.file = file;
