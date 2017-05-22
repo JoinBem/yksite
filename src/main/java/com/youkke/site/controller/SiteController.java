@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Template;
 import com.youkke.site.domain.Temptag;
@@ -34,7 +35,7 @@ import com.youkke.site.service.SiteService;
 import com.youkke.site.service.TempService;
 
 @Controller
-public class SiteController {
+public class SiteController<E> {
 
 	@Autowired
 	private SiteService siteService;
@@ -43,6 +44,7 @@ public class SiteController {
 	private TempService tempService;
 	
 	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
+	
 	
 	@GetMapping("/index")
 	public String testHtml(){
@@ -53,6 +55,19 @@ public class SiteController {
 	public String adminHtml(Model model){
 		Site site = siteService.get(sessuserid);
 		model.addAttribute("list", site);
+//		 ArrayList<JSONObject> list4 = JSON.parseObject(siteService.getDomain(sessuserid), ArrayList.class);   
+//	        for (int i = 0; i < list4.size(); i++) { //  推荐用这个  
+//	            JSONObject io = list4.get(i);  
+//	            System.out.println(io.get("domain") + "======adn=====");  
+//	        } 
+		JSONObject json = JSON.parseObject(siteService.getDomain(sessuserid));
+		System.err.println(json.get("domain"));
+		JSONArray array = JSON.parseArray(json.get("domain").toString());
+		ArrayList<String> temp = new ArrayList<String>();
+        for (int i = 0; i < array.size(); i++) { //  推荐用这个  
+            temp.add(array.get(i).toString());
+        }  
+        model.addAttribute("domain", temp);
 		return "admin";
 	}
 	
@@ -66,6 +81,7 @@ public class SiteController {
 	public void create(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(siteCreateForm.getDomain());
+		jsonArray.add("www");
 		JSONObject json = new JSONObject();
 		json.put("domain", jsonArray);
 		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), json.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
