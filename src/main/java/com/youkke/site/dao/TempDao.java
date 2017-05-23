@@ -1,5 +1,7 @@
 package com.youkke.site.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -41,17 +43,16 @@ public class TempDao {
 		getSession().update(temp);
 	}
 	
-	public Template getTempPath(String domain){
-		Template template = new Template();
+	public List<String> getTempPath(){
 		try {
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-			CriteriaQuery<Template> query  = builder.createQuery(Template.class);
+			CriteriaQuery<String> query  = builder.createQuery(String.class);
 			Root<Template> root =query.from(Template.class);
-			query.where(builder.equal(root.get("path"), domain));
-			template = entityManager.createQuery(query).getSingleResult();
+			query.select(root.get("path"));
+			List<String> template = entityManager.createQuery(query).getResultList();
+			return template;
 		}catch(Exception e){
 			return null;
 		}
-		return template;
 	}
 }

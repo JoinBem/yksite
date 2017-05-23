@@ -6,7 +6,9 @@ $('.input_btn').on("click", function(){
 	var url = $(this).parents("form").attr("action");
 	var data = $(this).parents("form").serialize();
 	$.post(url, data, function(data){
-		
+		if(data.domain == "domain.exists"){
+			alert("域名已存在");
+		}alert("保存成功");
 	});
 });
 

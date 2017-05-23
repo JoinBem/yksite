@@ -1,5 +1,7 @@
 package com.youkke.site.service;
 
+import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -26,7 +28,7 @@ public class SiteService {
 			siteDao.save(site);
 	}
 
-	public Site get(String userid){
+	public List<Site> get(String userid){
 		return siteDao.get(userid);
 	}
 	
@@ -34,11 +36,15 @@ public class SiteService {
 		siteDao.update(site);
 	}
 	
-	public void delete(String id){
-		siteDao.delete(id);
-	}
+//	public void delete(String id){
+//		siteDao.delete(id);
+//	}
 	
-	public String getDomain(String userid){
-		return siteDao.getDomain(userid);
+//	public List<String> getDomain(String userid){
+//		return siteDao.getDomain(userid);
+//	}
+	
+	public Site findById(String id){
+		return siteDao.findById(id);
 	}
 }

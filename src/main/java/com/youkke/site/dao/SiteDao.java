@@ -1,5 +1,7 @@
 package com.youkke.site.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -33,28 +35,38 @@ public class SiteDao {
 		getSession().update(site);
 	}
 	
-	public Site get(String userid){
+	public List<Site> get(String userid){
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
 		Root<Site> root = criteria.from(Site.class);
 		criteria.where(builder.equal(root.get("userid"), userid));
+		List<Site> site =  entityManager.createQuery(criteria).getResultList();
+		return site;
+	}
+	
+	
+	public Site findById(String id){
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
+		Root<Site> root = criteria.from(Site.class);
+		criteria.where(builder.equal(root.get("id"), id));
 		Site site =  entityManager.createQuery(criteria).getSingleResult();
 		return site;
 	}
 	
-	public void delete(String id){
-		Site site =get(id);
-		getSession().delete(site);
-	}
+//	public void delete(String id){
+//		List<Site> site =get(id);
+//		getSession().delete(site);
+//	}
 	
-	public String getDomain(String userid){
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<String> criteria = builder.createQuery(String.class);
-		Root<Site> root = criteria.from(Site.class);
-		criteria.select(root.get("domainjson"));
-		criteria.where(builder.equal(root.get("userid"), userid));
-		String domain =  entityManager.createQuery(criteria).getSingleResult();
-		return domain;
-	}
+//	public List<String> getDomain(String userid){
+//		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//		CriteriaQuery<String> criteria = builder.createQuery(String.class);
+//		Root<Site> root = criteria.from(Site.class);
+//		criteria.select(root.get("domainjson"));
+//		criteria.where(builder.equal(root.get("userid"), userid));
+//		List<String> domain =  entityManager.createQuery(criteria).getResultList();
+//		return domain;
+//	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +34,7 @@ import com.youkke.site.domain.Template;
 import com.youkke.site.domain.Temptag;
 import com.youkke.site.service.SiteService;
 import com.youkke.site.service.TempService;
+import com.youkke.site.utils.ServiceException;
 
 @Controller
 public class SiteController<E> {
@@ -53,15 +55,9 @@ public class SiteController<E> {
 	
 	@GetMapping("/admin")
 	public String adminHtml(Model model){
-		Site site = siteService.get(sessuserid);
-		JSONObject json = JSON.parseObject(siteService.getDomain(sessuserid));
-		JSONArray array = JSON.parseArray(json.get("domain").toString());
-		ArrayList<String> temp = new ArrayList<String>();
-        for (int i = 0; i < array.size(); i++) {
-            temp.add(array.get(i).toString());
-        }
+		List<Site> site = siteService.get(sessuserid);
+		System.err.println(site.get(0).getDomains());
         model.addAttribute("list", site);
-        model.addAttribute("domain", temp);
 		return "admin";
 	}
 	
@@ -70,8 +66,9 @@ public class SiteController<E> {
 		return "input";
 	}
 	
-	@GetMapping("/update")
-	public String updateHtml(){
+	@GetMapping("/update/{id}")
+	public String updateHtml(@PathVariable String id, Model model){
+		model.addAttribute("site", siteService.findById(id));
 		return "update";
 	}
 	
@@ -80,7 +77,6 @@ public class SiteController<E> {
 	public void create(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(siteCreateForm.getDomain());
-		jsonArray.add("www");
 		JSONObject json = new JSONObject();
 		json.put("domain", jsonArray);
 		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), json.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);

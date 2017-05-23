@@ -1,5 +1,6 @@
 package com.youkke.site.domain;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -8,7 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -24,6 +29,9 @@ public class Site {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name ="template_id")
 	private Template template;
+	
+	@Transient
+	private List<String> domains;
 	
 	public Site(){
 		
@@ -73,6 +81,20 @@ public class Site {
 	}
 	public void setTemplate(Template template) {
 		this.template = template;
+	}
+
+	public List<String> getDomains() {
+		try {
+			JSONObject json = JSON.parseObject(domainjson);
+			this.domains = JSON.parseArray(json.get("domain").toString(), String.class);
+		}catch(Exception e){
+			
+		}
+		return domains;
+	}
+
+	public void setDomains(List<String> domains) {
+		this.domains = domains;
 	}
 	
 	
