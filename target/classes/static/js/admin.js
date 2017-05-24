@@ -2,6 +2,16 @@
  * 
  */
 
+// 删除按钮
+$(".delete_a").on("click",function(event){
+	event.preventDefault();
+	$.post($(this).attr("href") ,
+		function(data){
+			window.location.href = "/admin";
+		});
+}); 
+
+//发布按钮
 $('.input_btn').on("click", function(){
 	var url = $(this).parents("form").attr("action");
 	var data = $(this).parents("form").serialize();
@@ -12,7 +22,16 @@ $('.input_btn').on("click", function(){
 	});
 });
 
-var files = [];
+//修改按钮
+$('.update').on("click", function(){
+	var data = $(this).parents("form").serialize();
+	var url = $(this).parents("form").attr("action");
+	$.post(url, data, function(data){
+		window.location.href = "/admin";
+	});
+});
+
+/*var files = [];
 $(document).ready(function(){
   $("input").change(function(){
     files = this.files;
@@ -38,4 +57,4 @@ $("#upload-btn").click(function(){
     }
   });
   
-});
+});*/

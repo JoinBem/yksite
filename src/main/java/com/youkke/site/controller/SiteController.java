@@ -3,7 +3,9 @@ package com.youkke.site.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.JFileChooser;
@@ -56,7 +58,6 @@ public class SiteController<E> {
 	@GetMapping("/admin")
 	public String adminHtml(Model model){
 		List<Site> site = siteService.get(sessuserid);
-		System.err.println(site.get(0).getDomains());
         model.addAttribute("list", site);
 		return "admin";
 	}
@@ -72,16 +73,23 @@ public class SiteController<E> {
 		return "update";
 	}
 	
+	@PostMapping("/update/{id}")
+	@ResponseBody
+	public Map<String, Object> update(@PathVariable String id, @Valid SiteCreateForm siteCreateForm){
+		Map<String, Object> map = new HashMap<String, Object>();
+		Site site = siteService.findById(id);
+		siteService.update(site, siteCreateForm);
+		return map;
+	}
+	
 	@PostMapping("/input")
 	@ResponseBody
 	public void create(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
-		jsonArray.add(siteCreateForm.getDomain());
-		JSONObject json = new JSONObject();
-		json.put("domain", jsonArray);
-		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), json.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
+		jsonArray.add(siteCreateForm.getDomain().get(0));
+		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
 		Temptag temptag = new Temptag("index", "{ \"content\": [" +"\"info\", \"goods\", \"photos\"" +"]}", template);
-		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, json.toString(), template);
+		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, jsonArray.toString(), template);
 		tempService.savetemp(template, jsonArray);
 		tempService.savetag(temptag);
 		siteService.save(site);
@@ -91,6 +99,15 @@ public class SiteController<E> {
 		
 //		siteService.delete(sessuserid);
 		
+	}
+
+	@PostMapping("/delete/{id}")
+	@ResponseBody
+	public Map<String, Object> delete(@PathVariable String id){
+		Map<String, Object> map = new HashMap<String, Object>();
+		siteService.delete(id);
+		map.put("result", "success");
+		return map;
 	}
 	
 	@PostMapping("/upload")

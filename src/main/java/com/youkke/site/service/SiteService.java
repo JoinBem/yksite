@@ -2,20 +2,14 @@ package com.youkke.site.service;
 
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.youkke.site.controller.SiteCreateForm;
 import com.youkke.site.dao.SiteDao;
-import com.youkke.site.dao.TempDao;
 import com.youkke.site.domain.Site;
-import com.youkke.site.domain.Template;
-import com.youkke.site.domain.Temptag;
 
 @Component
 @Transactional
@@ -32,13 +26,24 @@ public class SiteService {
 		return siteDao.get(userid);
 	}
 	
-	public void update(Site site){
+	public void update(Site site, SiteCreateForm siteCreateForm){
+		JSONArray jsonArray = new JSONArray();
+		for(int i = 0; i < siteCreateForm.getDomain().size(); i++){
+			jsonArray.add(siteCreateForm.getDomain().get(i));
+		}
+		site.getTemplate().setName(siteCreateForm.getTempname());
+		site.getTemplate().setContent(siteCreateForm.getTempcontent());
+		site.getTemplate().setTitle(siteCreateForm.getTemptitle());
+		site.setName(siteCreateForm.getSitename());
+		site.setDomainjson(jsonArray.toString());
+		site.getTemplate().setPath(jsonArray.toString());
 		siteDao.update(site);
 	}
 	
-//	public void delete(String id){
-//		siteDao.delete(id);
-//	}
+	public void delete(String id){
+		Site site = siteDao.findById(id);
+		siteDao.delete(site);
+	}
 	
 //	public List<String> getDomain(String userid){
 //		return siteDao.getDomain(userid);

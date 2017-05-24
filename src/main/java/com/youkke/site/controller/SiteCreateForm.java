@@ -1,11 +1,12 @@
 package com.youkke.site.controller;
 
 import java.io.File;
+import java.util.List;
 
 public class SiteCreateForm {
 	
 	private String sitename;
-	private String domain;
+	private List<String> domain;
 	private String template;
 	private String tempname;
 	private String temptitle;
@@ -16,10 +17,10 @@ public class SiteCreateForm {
 	public void setSitename(String sitename) {
 		this.sitename = sitename;
 	}
-	public String getDomain() {
+	public List<String> getDomain() {
 		return domain;
 	}
-	public void setDomain(String domain) {
+	public void setDomain(List<String> domain) {
 		this.domain = domain;
 	}
 	public String getTemplate() {

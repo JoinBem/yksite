@@ -5,13 +5,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <div th:each="list:${site}">
-<div><div style=" display:inline;">站点名称 :</div> <div style=" display:inline;"><input th:value="${list.name}"/></div></div>
-<div><div style=" display:inline;">站点域名 :</div> <div style=" display:inline;" th:each="domains:${list.domains}"><input th:value="${domains}"/></div></div>
-<div><div style=" display:inline;">模板名称 :</div> <div style=" display:inline;"><input th:value="${list.template.name}"/></div></div>
-<div><div style=" display:inline;">模板标题 :</div> <div style=" display:inline;"><input th:value="${list.template.title}"/></div></div>
-<div><div style=" display:inline;">模板内容 :</div> <div style=" display:inline;"><input th:value="${list.template.content}"/></div></div>
+<form th:action="@{'/update/' + ${list?.id}}">
+<div><div style=" display:inline;">站点名称 :</div> <div style=" display:inline;"><input name="sitename" th:value="${list.name}"/></div></div>
+<div><div style=" display:inline;">站点域名 :</div> <div style=" display:inline;" th:each="domains:${list.domains}"><input name="domain" th:value="${domains}"/></div></div>
+<div><div style=" display:inline;">模板名称 :</div> <div style=" display:inline;"><input name="tempname" th:value="${list.template.name}"/></div></div>
+<div><div style=" display:inline;">模板标题 :</div> <div style=" display:inline;"><input name="temptitle" th:value="${list.template.title}"/></div></div>
+<div><div style=" display:inline;">模板内容 :</div> <div style=" display:inline;"><input name="tempcontent" th:value="${list.template.content}"/></div></div>
+<div><input type="button" value="修改" class="update"></div>
+</form>
 </div>
+
 </body>
 <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
 <script th:src="@{/js/admin.js}"></script>

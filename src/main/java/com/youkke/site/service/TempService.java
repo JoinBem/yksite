@@ -35,8 +35,8 @@ public class TempService {
 	public void savetemp(Template temp, JSONArray jsonArray){
 		List<String> list = tempDao.getTempPath();
 		for(int i = 0; i < list.size(); i++){
-			JSONObject json = JSON.parseObject(list.get(i));
-			JSONArray array = JSON.parseArray(json.get("domain").toString());
+			//JSONObject json = JSON.parseObject(list.get(i));
+			//JSONArray array = JSON.parseArray(json.get("domain").toString());
 			for (int j = 0; j < jsonArray.size(); j++){
 				if(list.get(i).contains(jsonArray.get(j).toString())){
 					System.err.println("-----------");

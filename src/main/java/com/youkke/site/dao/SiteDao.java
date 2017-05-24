@@ -54,10 +54,9 @@ public class SiteDao {
 		return site;
 	}
 	
-//	public void delete(String id){
-//		List<Site> site =get(id);
-//		getSession().delete(site);
-//	}
+	public void delete(Site site){
+		getSession().delete(site);
+	}
 	
 //	public List<String> getDomain(String userid){
 //		CriteriaBuilder builder = entityManager.getCriteriaBuilder();

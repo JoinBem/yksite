@@ -12,8 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -85,8 +83,7 @@ public class Site {
 
 	public List<String> getDomains() {
 		try {
-			JSONObject json = JSON.parseObject(domainjson);
-			this.domains = JSON.parseArray(json.get("domain").toString(), String.class);
+			this.domains = JSON.parseArray(domainjson, String.class);
 		}catch(Exception e){
 			
 		}
