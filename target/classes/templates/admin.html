@@ -8,9 +8,6 @@
 <div th:each="list:${list}">
 <div><div style=" display:inline;">站点名称 :</div> <div style=" display:inline;" th:text="${list.name}"></div></div>
 <div><div style=" display:inline;">站点域名 :</div> <div th:each="domain:${list.domains}" style=" display:inline;" th:text="${domain}"></div></div>
-<div><div style=" display:inline;">模板名称 :</div> <div style=" display:inline;" th:text="${list.template.name}"></div></div>
-<div><div style=" display:inline;">模板标题 :</div> <div style=" display:inline;" th:text="${list.template.title}"></div></div>
-<div><div style=" display:inline;">模板内容 :</div> <div style=" display:inline;" th:text="${list.template.content}"></div></div>
 <div><a th:href="@{'/update/' + ${list?.id}}">修改</a></div>
 <div><a th:href="@{'/delete/' + ${list?.id}}" class="delete_a">删除</a></div>
 </div>

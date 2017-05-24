@@ -31,12 +31,8 @@ public class SiteService {
 		for(int i = 0; i < siteCreateForm.getDomain().size(); i++){
 			jsonArray.add(siteCreateForm.getDomain().get(i));
 		}
-		site.getTemplate().setName(siteCreateForm.getTempname());
-		site.getTemplate().setContent(siteCreateForm.getTempcontent());
-		site.getTemplate().setTitle(siteCreateForm.getTemptitle());
 		site.setName(siteCreateForm.getSitename());
 		site.setDomainjson(jsonArray.toString());
-		site.getTemplate().setPath(jsonArray.toString());
 		siteDao.update(site);
 	}
 	

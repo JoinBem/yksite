@@ -37,13 +37,12 @@ public class Site {
 		
 	}
 	
-	public Site(String userid, String name, String filepath, String domainjson, Template template){
+	public Site(String userid, String name, String filepath, String domainjson){
 		this.id = UUID.randomUUID().toString().replaceAll("-", "");
 		this.userid = userid;
 		this.name = name;
 		this.filepath = filepath;
 		this.domainjson = domainjson;
-		this.template = template;
 	}
 	
 	public String getId() {

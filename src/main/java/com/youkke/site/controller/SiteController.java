@@ -87,9 +87,9 @@ public class SiteController<E> {
 	public void create(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(siteCreateForm.getDomain().get(0));
-		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
-		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, jsonArray.toString(), template);
-		tempService.savetemp(template, jsonArray);
+		//Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
+		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, jsonArray.toString());
+		//tempService.savetemp(template, jsonArray);
 		siteService.save(site);
 		
 //		Site site = siteService.get(sessuserid);
