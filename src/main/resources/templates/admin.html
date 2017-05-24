@@ -8,8 +8,8 @@
 <div th:each="list:${list}">
 <div><div style=" display:inline;">站点名称 :</div> <div style=" display:inline;" th:text="${list.name}"></div></div>
 <div><div style=" display:inline;">站点域名 :</div> <div th:each="domain:${list.domains}" style=" display:inline;" th:text="${domain}"></div></div>
-<div><a th:href="@{'/update/' + ${list?.id}}">修改</a></div>
-<div><a th:href="@{'/delete/' + ${list?.id}}" class="delete_a">删除</a></div>
+<div><a th:href="@{'site' + '/update/' + ${list?.id}}">修改</a></div>
+<div><a th:href="@{'/site/' + '/delete/' + ${list?.id}}" class="site_delete">删除</a></div>
 </div>
 </body>
 <script th:src="@{/js/jquery-1.11.3.min.js}"></script>

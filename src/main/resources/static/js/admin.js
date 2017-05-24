@@ -3,7 +3,7 @@
  */
 
 // 删除按钮
-$(".delete_a").on("click",function(event){
+$(".site_delete").on("click",function(event){
 	event.preventDefault();
 	$.post($(this).attr("href") ,
 		function(data){
@@ -12,7 +12,7 @@ $(".delete_a").on("click",function(event){
 }); 
 
 //发布按钮
-$('.input_btn').on("click", function(){
+$('.site_input').on("click", function(){
 	var url = $(this).parents("form").attr("action");
 	var data = $(this).parents("form").serialize();
 	$.post(url, data, function(data){
@@ -23,7 +23,7 @@ $('.input_btn').on("click", function(){
 });
 
 //修改按钮
-$('.update').on("click", function(){
+$('.site_update').on("click", function(){
 	var data = $(this).parents("form").serialize();
 	var url = $(this).parents("form").attr("action");
 	$.post(url, data, function(data){

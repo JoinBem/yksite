@@ -62,18 +62,18 @@ public class SiteController<E> {
 		return "admin";
 	}
 	
-	@GetMapping("/input")
+	@GetMapping("/site/input")
 	public String inputHtml(){
-		return "input";
+		return "site_input";
 	}
 	
-	@GetMapping("/update/{id}")
+	@GetMapping("/site/update/{id}")
 	public String updateHtml(@PathVariable String id, Model model){
 		model.addAttribute("site", siteService.findById(id));
-		return "update";
+		return "site_update";
 	}
 	
-	@PostMapping("/update/{id}")
+	@PostMapping("/site/update/{id}")
 	@ResponseBody
 	public Map<String, Object> update(@PathVariable String id, @Valid SiteCreateForm siteCreateForm){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -82,7 +82,7 @@ public class SiteController<E> {
 		return map;
 	}
 	
-	@PostMapping("/input")
+	@PostMapping("/site/input")
 	@ResponseBody
 	public void create(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
@@ -99,7 +99,7 @@ public class SiteController<E> {
 		
 	}
 
-	@PostMapping("/delete/{id}")
+	@PostMapping("/site/delete/{id}")
 	@ResponseBody
 	public Map<String, Object> delete(@PathVariable String id){
 		Map<String, Object> map = new HashMap<String, Object>();
