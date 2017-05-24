@@ -31,7 +31,7 @@ $('.update').on("click", function(){
 	});
 });
 
-/*var files = [];
+var files = [];
 $(document).ready(function(){
   $("input").change(function(){
     files = this.files;
@@ -57,4 +57,4 @@ $("#upload-btn").click(function(){
     }
   });
   
-});*/
+});

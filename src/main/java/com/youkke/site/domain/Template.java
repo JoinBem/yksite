@@ -28,6 +28,9 @@ public class Template {
 	@OneToMany(mappedBy = "template",cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<Temptag> temptag;
+	@OneToMany(mappedBy = "template",cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private List<Site> site;
 	
 	
 	public Template(){

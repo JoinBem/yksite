@@ -7,11 +7,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -24,8 +26,8 @@ public class Site {
 	private String name;
 	private String filepath;
 	private String domainjson;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name ="template_id")
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JsonBackReference
 	private Template template;
 	
 	@Transient

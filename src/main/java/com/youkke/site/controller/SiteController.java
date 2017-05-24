@@ -88,10 +88,8 @@ public class SiteController<E> {
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(siteCreateForm.getDomain().get(0));
 		Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
-		Temptag temptag = new Temptag("index", "{ \"content\": [" +"\"info\", \"goods\", \"photos\"" +"]}", template);
 		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, jsonArray.toString(), template);
 		tempService.savetemp(template, jsonArray);
-		tempService.savetag(temptag);
 		siteService.save(site);
 		
 //		Site site = siteService.get(sessuserid);
@@ -113,44 +111,46 @@ public class SiteController<E> {
 	@PostMapping("/upload")
 	@ResponseBody
 	public void upload(@RequestParam("file") List<MultipartFile> file){
-//		String filePath = "F://test//";
-//		for(MultipartFile element: file){
-//			element.getOriginalFilename();
-//			String fileName = element.getOriginalFilename();
-//			File dest = new File(filePath + fileName);
-//			// 检测是否存在目录
-//	        if (!dest.getParentFile().exists()) {
-//	            dest.getParentFile().mkdirs();
-//	        }
-//			try {
-//				element.transferTo(dest);
-//			} catch (IllegalStateException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			
-//			File input = new File(filePath + fileName);
-//			Document doc = null;
-//			try {
-//				doc = Jsoup.parse(input, "UTF-8");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			Element content = doc.getElementById("nav");
-//			System.err.println(content);
-//		}
-		Document doc = null;
-		try {
-			doc = Jsoup.connect("http://class.breadem.com/party").get();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String filePath = "F://test//";
+		for(MultipartFile element: file){
+			element.getOriginalFilename();
+			String fileName = element.getOriginalFilename();
+			System.err.println(fileName);
+			File dest = new File(filePath + fileName);
+			// 检测是否存在目录
+	        if (!dest.getParentFile().exists()) {
+	            dest.getParentFile().mkdirs();
+	        }
+			try {
+				element.transferTo(dest);
+			} catch (IllegalStateException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			File input = new File(filePath + fileName);
+			Document doc = null;
+			try {
+				doc = Jsoup.parse(input, "UTF-8");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String content = doc.getElementsByAttribute("wxkey").html();
+			
+			System.err.println(content);
 		}
-		String title = doc.outerHtml();
-		System.err.println(title);
+//		Document doc = null;
+//		try {
+//			doc = Jsoup.connect("http://class.breadem.com/party").get();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		String title = doc.outerHtml();
+//		System.err.println(title);
 	}
 }
