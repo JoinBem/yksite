@@ -43,16 +43,38 @@ public class TempDao {
 		getSession().update(temp);
 	}
 	
-	public List<String> getTempPath(){
-		try {
-			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-			CriteriaQuery<String> query  = builder.createQuery(String.class);
-			Root<Template> root =query.from(Template.class);
-			query.select(root.get("path"));
-			List<String> template = entityManager.createQuery(query).getResultList();
-			return template;
-		}catch(Exception e){
-			return null;
-		}
+	public void deleteTemp(Template temp){
+		getSession().delete(temp);
 	}
+	
+	public List<Template> get(String userid){
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Template> criteria = builder.createQuery(Template.class);
+		Root<Template> root = criteria.from(Template.class);
+		criteria.where(builder.equal(root.get("userid"), userid));
+		List<Template> temp =  entityManager.createQuery(criteria).getResultList();
+		return temp;
+	}
+	
+	public Template findById(String id){
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Template> criteria = builder.createQuery(Template.class);
+		Root<Template> root = criteria.from(Template.class);
+		criteria.where(builder.equal(root.get("id"), id));
+		Template template =  entityManager.createQuery(criteria).getSingleResult();
+		return template;
+	}
+	
+//	public List<String> getTempPath(){
+//		try {
+//			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//			CriteriaQuery<String> query  = builder.createQuery(String.class);
+//			Root<Template> root =query.from(Template.class);
+//			query.select(root.get("path"));
+//			List<String> template = entityManager.createQuery(query).getResultList();
+//			return template;
+//		}catch(Exception e){
+//			return null;
+//		}
+//	}
 }

@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.youkke.site.controller.SiteCreateForm;
 import com.youkke.site.dao.SiteDao;
 import com.youkke.site.domain.Site;
+import com.youkke.site.utils.ServiceException;
 
 @Component
 @Transactional
@@ -18,8 +19,17 @@ public class SiteService {
 	@Autowired
 	private SiteDao siteDao;
 	
-	public void save(Site site){
-			siteDao.save(site);
+	public void save(Site site, JSONArray jsonArray){
+		List<String> list = siteDao.getDomain();
+		for(int i = 0; i < list.size(); i++){
+			for (int j = 0; j < jsonArray.size(); j++){
+				if(list.get(i).contains(jsonArray.get(j).toString())){
+					System.err.println("-----------");
+					throw new ServiceException("domain.exists", "domain");
+				}
+			}
+		}
+		siteDao.save(site);
 	}
 
 	public List<Site> get(String userid){

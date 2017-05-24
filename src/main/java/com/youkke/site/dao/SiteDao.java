@@ -58,14 +58,13 @@ public class SiteDao {
 		getSession().delete(site);
 	}
 	
-//	public List<String> getDomain(String userid){
-//		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-//		CriteriaQuery<String> criteria = builder.createQuery(String.class);
-//		Root<Site> root = criteria.from(Site.class);
-//		criteria.select(root.get("domainjson"));
-//		criteria.where(builder.equal(root.get("userid"), userid));
-//		List<String> domain =  entityManager.createQuery(criteria).getResultList();
-//		return domain;
-//	}
+	public List<String> getDomain(){
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<String> criteria = builder.createQuery(String.class);
+		Root<Site> root = criteria.from(Site.class);
+		criteria.select(root.get("domainjson"));
+		List<String> domain =  entityManager.createQuery(criteria).getResultList();
+		return domain;
+	}
 
 }

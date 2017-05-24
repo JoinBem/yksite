@@ -2,34 +2,57 @@
  * 
  */
 
-// 删除按钮
 $(".site_delete").on("click",function(event){
 	event.preventDefault();
 	$.post($(this).attr("href") ,
 		function(data){
-			window.location.href = "/admin";
+			window.location.href = "/site";
 		});
 }); 
 
-//发布按钮
 $('.site_input').on("click", function(){
 	var url = $(this).parents("form").attr("action");
 	var data = $(this).parents("form").serialize();
 	$.post(url, data, function(data){
 		if(data.domain == "domain.exists"){
 			alert("域名已存在");
-		}alert("保存成功");
+		}
+		alert("保存成功");
+		window.location.href = "/site";
 	});
 });
 
-//修改按钮
 $('.site_update').on("click", function(){
 	var data = $(this).parents("form").serialize();
 	var url = $(this).parents("form").attr("action");
 	$.post(url, data, function(data){
-		window.location.href = "/admin";
+		window.location.href = "/site";
 	});
 });
+
+$('.temp_input').on("click", function(){
+	var url = $(this).parents("form").attr("action");
+	var data = $(this).parents("form").serialize();
+	$.post(url, data, function(data){
+		window.location.href = "/temp";
+	});
+});
+
+$('.temp_update').on("click", function(){
+	var url = $(this).parents("form").attr("action");
+	var data = $(this).parents("form").serialize();
+	$.post(url, data, function(data){
+		window.location.href = "/temp";
+	});
+});
+
+$(".temp_delete").on("click",function(event){
+	event.preventDefault();
+	$.post($(this).attr("href") ,
+		function(data){
+			window.location.href = "/temp";
+		});
+}); 
 
 var files = [];
 $(document).ready(function(){

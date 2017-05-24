@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:each="list:${list}">
+<form th:action="@{'/temp' + '/update/' + ${list?.id}}">
+<div><p>模板名字</p><input th:value="${list.name}" type="text" name="tempname"/></div>
+<div><p>模板标题</p><input th:value="${list.title}" type="text" name="temptitle"/></div>
+<div><p>模板内容</p><input th:value="${list.content}" type="text" name="tempcontent"/></div>
+<div><p>模板价格</p><input th:value="${list.price}" type="text" name="tempprice"></div>
+<div><input type="button" value="修改" class="temp_update"></div>
+</form>
+</div>
+</body>
+<script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
+</html>

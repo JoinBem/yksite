@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div><a th:href="@{/temp/input}">模板发布</a></div>
+<div th:each="list:${list}">
+<div><div style=" display:inline;">模板名称 :</div> <div style=" display:inline;" th:text="${list.name}"></div></div>
+<div><div style=" display:inline;">模板标题 :</div> <div style=" display:inline;" th:text="${list.title}"></div></div>
+<div><div style=" display:inline;">模板内容 :</div> <div style=" display:inline;" th:text="${list.content}"></div></div>
+<div><div style=" display:inline;">模板价格 :</div> <div style=" display:inline;" th:text="${list.price}"></div></div>
+<div><a th:href="@{'/temp' + '/update/' + ${list?.id}}">修改</a></div>
+<div><a th:href="@{'/temp' + '/delete/' + ${list?.id}}" class="temp_delete">删除</a></div>
+</div>
+</body>
+<script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
+</html>

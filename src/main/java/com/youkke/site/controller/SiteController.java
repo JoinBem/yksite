@@ -44,22 +44,19 @@ public class SiteController<E> {
 	@Autowired
 	private SiteService siteService;
 	
-	@Autowired
-	private TempService tempService;
-	
 	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
 	
 	
-	@GetMapping("/index")
+	@GetMapping("/admin")
 	public String testHtml(){
-		return "index";
+		return "admin";
 	}
 	
-	@GetMapping("/admin")
-	public String adminHtml(Model model){
+	@GetMapping("/site")
+	public String siteHtml(Model model){
 		List<Site> site = siteService.get(sessuserid);
         model.addAttribute("list", site);
-		return "admin";
+		return "site";
 	}
 	
 	@GetMapping("/site/input")
@@ -90,7 +87,7 @@ public class SiteController<E> {
 		//Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);
 		Site site = new Site(sessuserid, siteCreateForm.getSitename(), null, jsonArray.toString());
 		//tempService.savetemp(template, jsonArray);
-		siteService.save(site);
+		siteService.save(site, jsonArray);
 		
 //		Site site = siteService.get(sessuserid);
 //		System.err.println(site.getTemplate().getTemptag().get(0).getTagjson());
@@ -108,49 +105,4 @@ public class SiteController<E> {
 		return map;
 	}
 	
-	@PostMapping("/upload")
-	@ResponseBody
-	public void upload(@RequestParam("file") List<MultipartFile> file){
-		String filePath = "F://test//";
-		for(MultipartFile element: file){
-			element.getOriginalFilename();
-			String fileName = element.getOriginalFilename();
-			System.err.println(fileName);
-			File dest = new File(filePath + fileName);
-			// 检测是否存在目录
-	        if (!dest.getParentFile().exists()) {
-	            dest.getParentFile().mkdirs();
-	        }
-			try {
-				element.transferTo(dest);
-			} catch (IllegalStateException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			File input = new File(filePath + fileName);
-			Document doc = null;
-			try {
-				doc = Jsoup.parse(input, "UTF-8");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String content = doc.getElementsByAttribute("wxkey").html();
-			
-			System.err.println(content);
-		}
-//		Document doc = null;
-//		try {
-//			doc = Jsoup.connect("http://class.breadem.com/party").get();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		String title = doc.outerHtml();
-//		System.err.println(title);
-	}
 }
