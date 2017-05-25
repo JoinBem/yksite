@@ -110,10 +110,11 @@ public class SiteController<E> {
 		//String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
 		String tempContextUrl =request.getServerName();
 		//System.out.println(tempContextUrl);
-		JSONArray jsonArray = new JSONArray();
-		jsonArray.add(tempContextUrl);
+		//JSONArray jsonArray = new JSONArray();
+		//jsonArray.add(tempContextUrl);
 		//System.out.println(jsonArray.toString());
-		List<Site> site = siteService.findurl(jsonArray.toString());
+		List<Site> site = siteService.findurl(tempContextUrl);
+		System.out.println(site);
         model.addAttribute("list", site);
 		return "index";
 	}
