@@ -3,10 +3,14 @@ package com.youkke.site.domain;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -15,11 +19,11 @@ public class Temptag {
 	@Id
 	private String id;
 	private String file;
+	@Column(length = 500)
 	private String tagjson;
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JsonBackReference
 	private Template template;
-	
 	public Temptag(){
 		
 	}

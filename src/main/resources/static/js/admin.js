@@ -50,7 +50,7 @@ $('.temp_input').on("click", function(){
 	    processData: false,
 	    cache: false,
 	    success: function(data){
-	      console.log(data);
+	      window.location.href = "/temp";
 	    }
 	  });
 });
