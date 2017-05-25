@@ -34,7 +34,7 @@ public class Site {
 	private List<String> domains;
 	
 	public Site(){
-		
+
 	}
 	
 	public Site(String userid, String name, String filepath, String domainjson){
