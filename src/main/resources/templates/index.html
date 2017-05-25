@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:each="list:${list}">
+<div><div style=" display:inline;">站点名称 :</div> <div style=" display:inline;" th:text="${list.name}"></div></div>
+
+<div th:each="lists:${list.template}">
+<div><div style=" display:inline;">当前站点使用的模板 :</div> <div style=" display:inline;" th:text="${lists.name}"></div></div>
+</div>
+<div th:each="listss:${list.template.temptag}">
+<div><div style=" display:inline;">当前模板的内容 :</div> <div style=" display:inline;" th:text="${listss.tagjson}"></div></div>
+</div>
+</div>
+</body>
+</html>

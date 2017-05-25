@@ -2,6 +2,8 @@ package com.youkke.site.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.youkke.site.controller.SiteCreateForm;
 import com.youkke.site.dao.SiteDao;
 import com.youkke.site.domain.Site;
+import com.youkke.site.domain.Template;
 import com.youkke.site.utils.ServiceException;
 
 @Component
@@ -36,6 +39,7 @@ public class SiteService {
 		return siteDao.get(userid);
 	}
 	
+
 	public void update(Site site, SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		for(int i = 0; i < siteCreateForm.getDomain().size(); i++){
@@ -58,4 +62,10 @@ public class SiteService {
 	public Site findById(String id){
 		return siteDao.findById(id);
 	}
+	
+
+   
+   public List<Site> findurl(String tempContextUrl){
+	   return siteDao.findurl(tempContextUrl);
+   }
 }

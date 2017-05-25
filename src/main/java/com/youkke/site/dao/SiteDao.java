@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,7 @@ public class SiteDao {
 		return site;
 	}
 	
+
 	
 	public Site findById(String id){
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -65,6 +67,19 @@ public class SiteDao {
 		criteria.select(root.get("domainjson"));
 		List<String> domain =  entityManager.createQuery(criteria).getResultList();
 		return domain;
+	}
+	
+	
+
+	
+	
+	public List<Site> findurl(String tempContextUrl){
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
+		Root<Site> root = criteria.from(Site.class);
+		criteria.where(builder.equal(root.get("domainjson"),tempContextUrl));
+		List<Site> site =  entityManager.createQuery(criteria).getResultList();
+		return site;
 	}
 
 }

@@ -105,4 +105,17 @@ public class SiteController<E> {
 		return map;
 	}
 	
+	@GetMapping("/index")
+	public String siteUrl(HttpServletRequest request,Model model){
+		//String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
+		String tempContextUrl =request.getServerName();
+		//System.out.println(tempContextUrl);
+		JSONArray jsonArray = new JSONArray();
+		jsonArray.add(tempContextUrl);
+		//System.out.println(jsonArray.toString());
+		List<Site> site = siteService.findurl(jsonArray.toString());
+        model.addAttribute("list", site);
+		return "index";
+	}
+	
 }
