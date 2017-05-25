@@ -77,10 +77,8 @@ public class SiteDao {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
 		Root<Site> root = criteria.from(Site.class);
-		System.err.println(url);
 		criteria.where(builder.like(root.get("domainjson"), "%"+url+"%"));
 		List<Site> site =  entityManager.createQuery(criteria).getResultList();
-		System.err.println(site);
 		return site;
 	}
 
