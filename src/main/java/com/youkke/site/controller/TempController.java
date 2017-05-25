@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -21,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONArray;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Template;
+import com.youkke.site.domain.Temptag;
 import com.youkke.site.service.TempService;
 
 @Controller
@@ -57,6 +62,63 @@ public class TempController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Template template = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
 		tempService.savetemp(template);
+		
+		String filePath = "F://test//";
+		for(MultipartFile element: tempCreateForm.getFile()){
+			JSONArray jsonArray = new JSONArray();
+			element.getOriginalFilename();
+			String fileName = element.getOriginalFilename();
+			//System.err.println(fileName);
+			File dest = new File(filePath + fileName);
+			// 检测是否存在目录
+	        if (!dest.getParentFile().exists()) {
+	            dest.getParentFile().mkdirs();
+	        }
+			try {
+				element.transferTo(dest);
+			} catch (IllegalStateException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			String regex_html = "\\/template\\/zh_CN\\/";
+			String regex_tag = "[a-zA-Z0-9_]*\\.html";
+			Pattern pattern_html = Pattern.compile(regex_html);
+			Pattern pattern_tag = Pattern.compile(regex_tag);
+			Matcher matcher_html = pattern_html.matcher(fileName);
+			if(matcher_html.find()){
+				Matcher matcher_tag = pattern_tag.matcher(fileName);
+				matcher_tag.find();
+				//System.err.println(matcher_tag.group().replaceAll(".html", ""));
+				File input = new File(filePath + fileName);
+				Document doc = null;
+				try {
+					doc = Jsoup.parse(input, "UTF-8");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//String content = doc.getElementsByAttribute("yksite").attr("yksite");
+				for(int i = 0; i < doc.getElementsByAttribute("yksite").size(); i++){
+					jsonArray.add(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
+					//System.err.println(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
+					//System.err.println(matcher_tag.group().replaceAll(".html", ""));
+				}
+				if(!jsonArray.isEmpty()){
+					String pathfile = matcher_tag.group().replaceAll(".html", "");
+					Temptag tamptag = new Temptag();
+					tamptag.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+					tamptag.setTagjson(jsonArray.toString());
+					tamptag.setFile(pathfile);
+					tamptag.setTemplate(template);
+					tempService.savetag(tamptag);
+				}
+			}
+		}
+		
 		return map;
 	}
 	
@@ -77,50 +139,64 @@ public class TempController {
 		map.put("result", "success");
 		return map;
 	}
-	
-	@PostMapping("/upload")
-	@ResponseBody
-	public void upload(@RequestParam("file") List<MultipartFile> file){
-		String filePath = "F://test//";
-		for(MultipartFile element: file){
-			element.getOriginalFilename();
-			String fileName = element.getOriginalFilename();
-			System.err.println(fileName);
-			File dest = new File(filePath + fileName);
-			// 检测是否存在目录
-	        if (!dest.getParentFile().exists()) {
-	            dest.getParentFile().mkdirs();
-	        }
-			try {
-				element.transferTo(dest);
-			} catch (IllegalStateException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			File input = new File(filePath + fileName);
-			Document doc = null;
-			try {
-				doc = Jsoup.parse(input, "UTF-8");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String content = doc.getElementsByAttribute("wxkey").html();
-			
-			System.err.println(content);
-		}
-//		Document doc = null;
-//		try {
-//			doc = Jsoup.connect("http://class.breadem.com/party").get();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//	
+//	@PostMapping("/upload")
+//	@ResponseBody
+//	public void upload(@RequestParam("file") List<MultipartFile> file){
+//		String filePath = "F://test//";
+//		JSONArray jsonArray = new JSONArray();
+//		for(MultipartFile element: file){
+//			element.getOriginalFilename();
+//			String fileName = element.getOriginalFilename();
+//			//System.err.println(fileName);
+//			File dest = new File(filePath + fileName);
+//			// 检测是否存在目录
+//	        if (!dest.getParentFile().exists()) {
+//	            dest.getParentFile().mkdirs();
+//	        }
+//			try {
+//				element.transferTo(dest);
+//			} catch (IllegalStateException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//			
+//			String regex_html = "\\/template\\/zh_CN\\/";
+//			String regex_tag = "[a-zA-Z0-9_]*\\.html";
+//			Pattern pattern_html = Pattern.compile(regex_html);
+//			Pattern pattern_tag = Pattern.compile(regex_tag);
+//			Matcher matcher_html = pattern_html.matcher(fileName);
+//			if(matcher_html.find()){
+//				Matcher matcher_tag = pattern_tag.matcher(fileName);
+//				matcher_tag.find();
+//				//System.err.println(matcher_tag.group().replaceAll(".html", ""));
+//				File input = new File(filePath + fileName);
+//				Document doc = null;
+//				try {
+//					doc = Jsoup.parse(input, "UTF-8");
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				//String content = doc.getElementsByAttribute("yksite").attr("yksite");
+//				for(int i = 0; i < doc.getElementsByAttribute("yksite").size(); i++){
+//					jsonArray.add(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
+//					System.err.println(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
+//					System.err.println(matcher_tag.group().replaceAll(".html", ""));
+//				}
+//			}
 //		}
-//		String title = doc.outerHtml();
-//		System.err.println(title);
-	}
+////		Document doc = null;
+////		try {
+////			doc = Jsoup.connect("http://class.breadem.com/party").get();
+////		} catch (IOException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////		String title = doc.outerHtml();
+////		System.err.println(title);
+//	}
 }

@@ -1,10 +1,15 @@
 package com.youkke.site.controller;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class TempCreateForm {
 	private String tempname;
 	private String temptitle;
 	private String tempcontent;
 	private String tempprice;
+	private List<MultipartFile> file;
 	public String getTempname() {
 		return tempname;
 	}
@@ -28,6 +33,12 @@ public class TempCreateForm {
 	}
 	public void setTempprice(String tempprice) {
 		this.tempprice = tempprice;
+	}
+	public List<MultipartFile> getFile() {
+		return file;
+	}
+	public void setFile(List<MultipartFile> file) {
+		this.file = file;
 	}
 	
 	
