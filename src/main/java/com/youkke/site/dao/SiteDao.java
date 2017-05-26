@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 import com.youkke.site.domain.Site;
+import com.youkke.site.domain.Tag;
 import com.youkke.site.domain.Template;
 @Component
 @Transactional
@@ -73,12 +74,12 @@ public class SiteDao {
 
 	
 	
-	public List<Site> findurl(String url, String path){
+	public Site findurl(String url){
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
 		Root<Site> root = criteria.from(Site.class);
 		criteria.where(builder.like(root.get("domainjson"), "%"+url+"%"));
-		List<Site> site =  entityManager.createQuery(criteria).getResultList();
+		Site site =  entityManager.createQuery(criteria).getSingleResult();
 		return site;
 	}
 

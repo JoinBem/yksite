@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.youkke.site.controller.u.SiteCreateForm;
 import com.youkke.site.dao.SiteDao;
 import com.youkke.site.domain.Site;
+import com.youkke.site.domain.Tag;
 import com.youkke.site.domain.Template;
 import com.youkke.site.utils.ServiceException;
 
@@ -65,7 +66,7 @@ public class SiteService {
 	
 
    
-   public List<Site> findurl(String url, String path){
-	   return siteDao.findurl(url, path);
+   public Site findurl(String url){
+	   return siteDao.findurl(url);
    }
 }
