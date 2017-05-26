@@ -6,11 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.jayway.jsonpath.internal.Path;
+
+import javassist.expr.NewArray;
+
 @Controller
 public class IndexController {
 	
-	@GetMapping("/")
+	@GetMapping("/*")
 	public String test(HttpServletRequest request, Model model){
+		System.err.println("---");
 //		String domain =request.getServerName(); 
 //		String path = request.getRequestURI().replaceAll("/", "");
 //		Site site = siteService.findurl(domain);
