@@ -62,22 +62,27 @@ public class SiteDao {
 		getSession().delete(site);
 	}
 	
-	public List<String> getDomain(){
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<String> criteria = builder.createQuery(String.class);
-		Root<Site> root = criteria.from(Site.class);
-		criteria.select(root.get("domainjson"));
-		List<String> domain =  entityManager.createQuery(criteria).getResultList();
-		return domain;
-	}
+//	public List<String> getDomain(){
+//		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//		CriteriaQuery<String> criteria = builder.createQuery(String.class);
+//		Root<Site> root = criteria.from(Site.class);
+//		criteria.select(root.get("domainjson"));
+//		List<String> domain =  entityManager.createQuery(criteria).getResultList();
+//		return domain;
+//	}
 	
 	public Site findByDomain(String url){
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
-		Root<Site> root = criteria.from(Site.class);
-		criteria.where(builder.like(root.get("domainjson"), "%"+url+"%"));
-		Site site = entityManager.createQuery(criteria).getSingleResult();
-		return site;
+		try{
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
+			Root<Site> root = criteria.from(Site.class);
+			criteria.where(builder.like(root.get("domainjson"), "%"+url+"%"));
+			Site site = entityManager.createQuery(criteria).getSingleResult();
+			return site;
+		}catch(Exception e){
+			return null;
+		}
+		
 	}
 	
 	public Temptag findByPath(Template template, String path){

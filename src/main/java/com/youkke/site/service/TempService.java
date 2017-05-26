@@ -68,9 +68,9 @@ public class TempService {
 			}
 			
 			Pattern patternHtml = Pattern.compile("\\/template\\/zh_CN\\/");
-			Pattern patternTag = Pattern.compile("[a-zA-Z0-9_]*\\.html");
 			Matcher matcherHtml = patternHtml.matcher(fileName);
 			if(matcherHtml.find()){
+				Pattern patternTag = Pattern.compile("[a-zA-Z0-9_]*\\.html");
 				Matcher matcherTag = patternTag.matcher(fileName);
 				//group前一定要先find
 				matcherTag.find();

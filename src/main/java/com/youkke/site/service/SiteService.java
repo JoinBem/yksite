@@ -26,13 +26,15 @@ public class SiteService {
 	private SiteDao siteDao;
 	
 	public void save(Site site, JSONArray jsonArray){
-		List<String> list = siteDao.getDomain();
-		for(int i = 0; i < list.size(); i++){
-			for (int j = 0; j < jsonArray.size(); j++){
-				if(list.get(i).contains(jsonArray.get(j).toString())){
-					System.err.println("-----------");
+		for(int i = 0; i < jsonArray.size(); i++){
+			Site currentSite = siteDao.findByDomain(jsonArray.get(i).toString());
+			if(currentSite != null){
+				boolean status = (currentSite.getStatus() != null && currentSite.getStatus().equals("yes"));
+				if(status){
+					System.err.println("--------");
 					throw new ServiceException("domain.exists", "domain");
 				}
+					
 			}
 		}
 		siteDao.save(site);
@@ -46,6 +48,14 @@ public class SiteService {
 	public void update(Site site, SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		for(int i = 0; i < siteCreateForm.getDomain().size(); i++){
+			Site currentSite = siteDao.findByDomain(siteCreateForm.getDomain().get(i).toString());
+			if(currentSite != null){
+				boolean status = (currentSite.getStatus() != null && currentSite.getStatus().equals("yes"));
+				if(status){
+					System.err.println("--------");
+					throw new ServiceException("domain.exists", "domain");
+				}	
+			}
 			jsonArray.add(siteCreateForm.getDomain().get(i));
 		}
 		site.setName(siteCreateForm.getSitename());

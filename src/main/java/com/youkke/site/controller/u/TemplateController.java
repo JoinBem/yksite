@@ -48,7 +48,6 @@ public class TemplateController {
 	@GetMapping("/u/temp/{id}/edit")
 	public String edit(@PathVariable String id, Model model){
 		model.addAttribute("list", tempService.findById(id));
-		System.err.println(tempService.findById(id).getTemptag().get(0).getTags().get(0).getName());
 		return "temp_update";
 	}
 	

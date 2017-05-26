@@ -95,6 +95,14 @@ public class Site {
 	public void setDomains(List<String> domains) {
 		this.domains = domains;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 	
 }
