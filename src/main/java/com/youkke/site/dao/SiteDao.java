@@ -73,7 +73,7 @@ public class SiteDao {
 
 	
 	
-	public List<Site> findurl(String url){
+	public List<Site> findurl(String url,String path){
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
 		Root<Site> root = criteria.from(Site.class);

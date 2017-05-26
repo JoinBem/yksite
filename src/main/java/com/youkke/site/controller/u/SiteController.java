@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.swing.JFileChooser;
 import javax.validation.Valid;
 import javax.xml.ws.spi.http.HttpContext;
@@ -47,7 +45,7 @@ public class SiteController<E> {
 	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
 	
 	
-	@GetMapping("/u/")
+	@GetMapping("/u")
 	public String index(){
 		return "admin";
 	}
@@ -66,7 +64,7 @@ public class SiteController<E> {
 	
 	@PostMapping("/u/site")
 	@ResponseBody
-	public void create(@Valid SiteCreateForm siteCreateForm){
+	public void sava(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(siteCreateForm.getDomain().get(0));
 		//Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);

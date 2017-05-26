@@ -7,7 +7,7 @@
 <body>
 
 <div th:each="list:${site}">
-<form th:action="@{'/site' + '/update/' + ${list?.id}}">
+<form th:action="@{'/u' + '/site/' + ${list?.id}}">
 <div><div style=" display:inline;">站点名称 :</div> <div style=" display:inline;"><input name="sitename" th:value="${list.name}"/></div></div>
 <div><div style=" display:inline;">站点域名 :</div> <div style=" display:inline;" th:each="domains:${list.domains}"><input name="domain" th:value="${domains}"/></div></div>
 <div><input type="button" value="修改" class="site_update"></div>
