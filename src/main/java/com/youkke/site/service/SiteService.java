@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
-import com.youkke.site.controller.SiteCreateForm;
+import com.youkke.site.controller.u.SiteCreateForm;
 import com.youkke.site.dao.SiteDao;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Template;

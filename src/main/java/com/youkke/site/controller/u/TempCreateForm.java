@@ -1,4 +1,4 @@
-package com.youkke.site.controller;
+package com.youkke.site.controller.u;
 
 import java.util.List;
 

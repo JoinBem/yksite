@@ -25,8 +25,7 @@ public class Template {
 	private String type;//用户自定义模板，认证后上架销售的模板
 	private Double price;
 	private Timestamp ctime;
-	@OneToMany(mappedBy = "template",cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference
+	@OneToMany(mappedBy = "template", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Temptag> temptag;
 	@OneToMany(mappedBy = "template",cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference
@@ -103,11 +102,13 @@ public class Template {
 	public void setCtime(Timestamp ctime) {
 		this.ctime = ctime;
 	}
-	public List<Temptag> getTemptag() {
-		return temptag;
+
+	public List<Site> getSite() {
+		return site;
 	}
-	public void setTemptag(List<Temptag> temptag) {
-		this.temptag = temptag;
+
+	public void setSite(List<Site> site) {
+		this.site = site;
 	}
 
 	

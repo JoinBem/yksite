@@ -1,4 +1,4 @@
-package com.youkke.site.controller;
+package com.youkke.site.controller.u;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,39 +47,24 @@ public class SiteController<E> {
 	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
 	
 	
-	@GetMapping("/admin")
-	public String testHtml(){
+	@GetMapping("/u/")
+	public String index(){
 		return "admin";
 	}
 	
-	@GetMapping("/site")
-	public String siteHtml(Model model){
+	@GetMapping("/u/sites")
+	public String sites(Model model){
 		List<Site> site = siteService.get(sessuserid);
         model.addAttribute("list", site);
 		return "site";
 	}
 	
-	@GetMapping("/site/input")
-	public String inputHtml(){
+	@GetMapping("/u/site/input")
+	public String input(){
 		return "site_input";
 	}
 	
-	@GetMapping("/site/update/{id}")
-	public String updateHtml(@PathVariable String id, Model model){
-		model.addAttribute("site", siteService.findById(id));
-		return "site_update";
-	}
-	
-	@PostMapping("/site/update/{id}")
-	@ResponseBody
-	public Map<String, Object> update(@PathVariable String id, @Valid SiteCreateForm siteCreateForm){
-		Map<String, Object> map = new HashMap<String, Object>();
-		Site site = siteService.findById(id);
-		siteService.update(site, siteCreateForm);
-		return map;
-	}
-	
-	@PostMapping("/site/input")
+	@PostMapping("/u/site")
 	@ResponseBody
 	public void create(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
@@ -95,23 +80,31 @@ public class SiteController<E> {
 //		siteService.delete(sessuserid);
 		
 	}
+	
+	@GetMapping("/u/site/{id}/edit")
+	public String edit(@PathVariable String id, Model model){
+		model.addAttribute("site", siteService.findById(id));
+		return "site_update";
+	}
+	
+	@PostMapping("/u/site/{id}")
+	@ResponseBody
+	public Map<String, Object> update(@PathVariable String id, @Valid SiteCreateForm siteCreateForm){
+		Map<String, Object> map = new HashMap<String, Object>();
+		Site site = siteService.findById(id);
+		siteService.update(site, siteCreateForm);
+		return map;
+	}
+	
+	
 
-	@PostMapping("/site/delete/{id}")
+	@PostMapping("/u/site/{id}/delete")
 	@ResponseBody
 	public Map<String, Object> delete(@PathVariable String id){
 		Map<String, Object> map = new HashMap<String, Object>();
 		siteService.delete(id);
 		map.put("result", "success");
 		return map;
-	}
-	
-	@GetMapping("/index")
-	public String siteUrl(HttpServletRequest request,Model model){
-		//String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
-		String tempContextUrl =request.getServerName();
-		List<Site> site = siteService.findurl(tempContextUrl);
-        model.addAttribute("list", site);
-		return "index";
 	}
 	
 }

@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.youkke.site.controller.TempCreateForm;
+import com.youkke.site.controller.u.TempCreateForm;
 import com.youkke.site.dao.TempDao;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Template;
@@ -37,11 +37,15 @@ public class TempService {
 	@Autowired
 	private TempDao tempDao;
 	
+	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
+	
 	public void savetag(Temptag tag){
 		tempDao.savetag(tag);
 	}
 	
-	public void savetemp(Template temp, TempCreateForm tempCreateForm){
+	public void savetemp(TempCreateForm tempCreateForm){
+		Template temp = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
+		
 		String filePath = "F://test//";
 		JSONObject jsonObject = new JSONObject();
 		for(MultipartFile element: tempCreateForm.getFile()){
@@ -93,8 +97,8 @@ public class TempService {
 		tamptag.setTagjson(jsonObject.toString());
 		tamptag.setTemplate(temp);
 		
-        tempDao.savetemp(temp);
         tempDao.savetag(tamptag);
+        tempDao.savetemp(temp);
 	}
 	
 	public void updateTag(Temptag tag){

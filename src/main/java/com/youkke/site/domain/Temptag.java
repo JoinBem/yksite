@@ -1,5 +1,6 @@
 package com.youkke.site.domain;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -8,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -21,8 +24,25 @@ public class Temptag {
 	private String file;
 	@Column(length = 500)
 	private String tagjson;
+	//news_10
+	@Transient
+	private List<Tag> tags;
+	
+	public List<Tag> getTags() {
+		try {
+			List<String> list = JSON.parseArray(tagjson, String.class);
+			for (String code : list) {
+				tags.add(new Tag(code));
+			}
+		}catch(Exception e){}
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+	
 	@ManyToOne(cascade = CascadeType.DETACH)
-	@JsonBackReference
 	private Template template;
 	public Temptag(){
 		

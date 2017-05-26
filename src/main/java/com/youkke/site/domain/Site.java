@@ -26,6 +26,7 @@ public class Site {
 	private String name;
 	private String filepath;
 	private String domainjson;
+	private String status;//状态，人工审核，站点域名是否合格，
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JsonBackReference
 	private Template template;

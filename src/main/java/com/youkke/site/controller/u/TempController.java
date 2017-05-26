@@ -1,4 +1,4 @@
-package com.youkke.site.controller;
+package com.youkke.site.controller.u;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,8 +61,7 @@ public class TempController {
 	@ResponseBody
 	public Map<String, Object> Create(@Valid TempCreateForm tempCreateForm){
 		Map<String, Object> map = new HashMap<String, Object>();
-		Template template = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
-		tempService.savetemp(template, tempCreateForm);
+		tempService.savetemp(tempCreateForm);
 		return map;
 	}
 	
