@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class TempCreateForm {
+public class TemplateCreateForm {
 	private String tempname;
 	private String temptitle;
 	private String tempcontent;

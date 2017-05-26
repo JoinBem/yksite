@@ -1,5 +1,7 @@
 package com.youkke.site.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.youkke.site.domain.Site;
+import com.youkke.site.domain.Tag;
 import com.youkke.site.service.SiteService;
 
 
@@ -20,10 +23,15 @@ public class IndexController {
 	public String test(HttpServletRequest request, Model model){
         String domain =request.getServerName(); 
 		String path = request.getRequestURI().replaceAll("/", "");
-		Site site = siteService.findurl(domain);
-		//List<Tag> tags = siteService.findurl(domain, path);
+		//Site site = siteService.findurl(domain);
+		List<Tag> tags = siteService.findCurrentTags(domain, path);
+		if(tags != null){
+			for(Tag item : tags){
+				System.err.println(item.getName());	
+				System.err.println(item.getNumber());
+			}
+		}
 
-		
 		
 		//StringBuffer url = request.getRequestURL();  
 
@@ -40,7 +48,7 @@ public class IndexController {
 		}else{
 			System.err.println("noContext");
 		}*/
-         model.addAttribute("list", site);
+        // model.addAttribute("list", site);
 		return "index";
 	}
 	

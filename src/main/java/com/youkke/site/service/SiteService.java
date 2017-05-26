@@ -1,5 +1,6 @@
 package com.youkke.site.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import com.youkke.site.dao.SiteDao;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Tag;
 import com.youkke.site.domain.Template;
+import com.youkke.site.domain.Temptag;
 import com.youkke.site.utils.ServiceException;
 
 @Component
@@ -64,9 +66,13 @@ public class SiteService {
 		return siteDao.findById(id);
 	}
 	
-
-   
-   public Site findurl(String url){
-	   return siteDao.findurl(url);
+   public List<Tag> findCurrentTags(String url,String path){
+	   List<Tag> tags = new ArrayList<Tag>();
+	   Site site = siteDao.findByDomain(url);
+	   Temptag temptag = siteDao.findByPath(site.getTemplate(), path);
+	   if(temptag != null){
+		   tags = temptag.getTags();
+	   }
+	   return tags;
    }
 }

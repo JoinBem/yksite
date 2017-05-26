@@ -18,7 +18,7 @@ import com.youkke.site.domain.Template;
 import com.youkke.site.service.TempService;
 
 @Controller
-public class TempController {
+public class TemplateController {
 
 	@Autowired
 	private TempService tempService;
@@ -39,7 +39,7 @@ public class TempController {
 	
 	@PostMapping("/u/temp")
 	@ResponseBody
-	public Map<String, Object> Create(@Valid TempCreateForm tempCreateForm){
+	public Map<String, Object> Create(@Valid TemplateCreateForm tempCreateForm){
 		Map<String, Object> map = new HashMap<String, Object>();
 		tempService.savetemp(tempCreateForm);
 		return map;
@@ -54,7 +54,7 @@ public class TempController {
 	
 	@PostMapping("/u/temp/{id}")
 	@ResponseBody
-	public Map<String, Object> update(@PathVariable String id, @Valid TempCreateForm tempCreateForm){
+	public Map<String, Object> update(@PathVariable String id, @Valid TemplateCreateForm tempCreateForm){
 		Map<String, Object> map = new HashMap<String, Object>();
 		Template template = tempService.findById(id);
 		tempService.updateTemp(template, tempCreateForm);

@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Tag;
 import com.youkke.site.domain.Template;
+import com.youkke.site.domain.Temptag;
 @Component
 @Transactional
 public class SiteDao {
@@ -70,17 +71,26 @@ public class SiteDao {
 		return domain;
 	}
 	
-	
-
-	
-	
-	public Site findurl(String url){
+	public Site findByDomain(String url){
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Site> criteria = builder.createQuery(Site.class);
 		Root<Site> root = criteria.from(Site.class);
 		criteria.where(builder.like(root.get("domainjson"), "%"+url+"%"));
-		Site site =  entityManager.createQuery(criteria).getSingleResult();
+		Site site = entityManager.createQuery(criteria).getSingleResult();
 		return site;
+	}
+	
+	public Temptag findByPath(Template template, String path){
+		try{
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Temptag> criteria = builder.createQuery(Temptag.class);
+			Root<Temptag> root = criteria.from(Temptag.class);
+			criteria.where(builder.equal(root.get("path"), path));
+			Temptag temptag = entityManager.createQuery(criteria).getSingleResult();
+			return temptag;
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 }

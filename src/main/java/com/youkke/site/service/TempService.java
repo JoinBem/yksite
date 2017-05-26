@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.youkke.site.controller.u.TempCreateForm;
+import com.youkke.site.controller.u.TemplateCreateForm;
 import com.youkke.site.dao.TempDao;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Template;
@@ -43,7 +43,7 @@ public class TempService {
 		tempDao.savetag(tag);
 	}
 	
-	public void savetemp(TempCreateForm tempCreateForm){
+	public void savetemp(TemplateCreateForm tempCreateForm){
 		Template temp = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
 		
 		String filePath = "F://test//";
@@ -67,13 +67,13 @@ public class TempService {
 				e1.printStackTrace();
 			}
 			
-			Pattern pattern_html = Pattern.compile("\\/template\\/zh_CN\\/");
-			Pattern pattern_tag = Pattern.compile("[a-zA-Z0-9_]*\\.html");
-			Matcher matcher_html = pattern_html.matcher(fileName);
-			if(matcher_html.find()){
-				Matcher matcher_tag = pattern_tag.matcher(fileName);
+			Pattern patternHtml = Pattern.compile("\\/template\\/zh_CN\\/");
+			Pattern patternTag = Pattern.compile("[a-zA-Z0-9_]*\\.html");
+			Matcher matcherHtml = patternHtml.matcher(fileName);
+			if(matcherHtml.find()){
+				Matcher matcherTag = patternTag.matcher(fileName);
 				//group前一定要先find
-				matcher_tag.find();
+				matcherTag.find();
 				File input = new File(filePath + fileName);
 				Document doc = null;
 				try {
@@ -85,7 +85,7 @@ public class TempService {
 				for(int i = 0; i < doc.getElementsByAttribute("yksite").size(); i++){
 					jsonArray.add(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
 				}
-				String path = matcher_tag.group().replaceAll(".html", "");
+				String path = matcherTag.group().replaceAll(".html", "");
 				if(!jsonArray.isEmpty()){
 					Temptag tamptag = new Temptag();
 					tamptag.setId(UUID.randomUUID().toString().replaceAll("-", ""));
@@ -105,7 +105,7 @@ public class TempService {
 		tempDao.updateTag(tag);
 	}
 	
-	public void updateTemp(Template temp, TempCreateForm tempCreateForm){
+	public void updateTemp(Template temp, TemplateCreateForm tempCreateForm){
 		temp.setName(tempCreateForm.getTempname());
 		temp.setTitle(tempCreateForm.getTemptitle());
 		temp.setContent(tempCreateForm.getTempcontent());
