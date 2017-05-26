@@ -1,5 +1,6 @@
 package com.youkke.site.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class Temptag {
 	
 	public List<Tag> getTags() {
 		try {
+			tags = new ArrayList<>();
 			List<String> list = JSON.parseArray(tagjson, String.class);
 			for (String code : list) {
 				tags.add(new Tag(code));
