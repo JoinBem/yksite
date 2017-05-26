@@ -50,7 +50,7 @@ $('.temp_input').on("click", function(){
 	    processData: false,
 	    cache: false,
 	    success: function(data){
-	      window.location.href = "/temp";
+	      window.location.href = "/u/temps";
 	    }
 	  });
 });
@@ -59,7 +59,7 @@ $('.temp_update').on("click", function(){
 	var url = $(this).parents("form").attr("action");
 	var data = $(this).parents("form").serialize();
 	$.post(url, data, function(data){
-		window.location.href = "/temp";
+		window.location.href = "/u/temps";
 	});
 });
 
@@ -67,7 +67,7 @@ $(".temp_delete").on("click",function(event){
 	event.preventDefault();
 	$.post($(this).attr("href") ,
 		function(data){
-			window.location.href = "/temp";
+			window.location.href = "/u/temps";
 		});
 }); 
 

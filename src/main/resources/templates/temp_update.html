@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:each="list:${list}">
-<form th:action="@{'/temp' + '/update/' + ${list?.id}}">
+<form th:action="@{'/u' + '/temp/' + ${list?.id}}">
 <div><p>模板名字</p><input th:value="${list.name}" type="text" name="tempname"/></div>
 <div><p>模板标题</p><input th:value="${list.title}" type="text" name="temptitle"/></div>
 <div><p>模板内容</p><input th:value="${list.content}" type="text" name="tempcontent"/></div>

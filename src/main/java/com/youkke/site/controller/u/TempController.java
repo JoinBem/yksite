@@ -39,25 +39,19 @@ public class TempController {
 	
 	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
 	
-	@GetMapping("/temp")
-	public String tempHtml(Model model){
+	@GetMapping("/u/temps")
+	public String index(Model model){
 		List<Template> templdate = tempService.get(sessuserid);
 		model.addAttribute("list", templdate);
 		return "temp";
 	}
 	
-	@GetMapping("/temp/input")
-	public String inputHtml(){
+	@GetMapping("/u/temp/input")
+	public String input(){
 		return "temp_input";
 	}
 	
-	@GetMapping("/temp/update/{id}")
-	public String updateHtml(@PathVariable String id, Model model){
-		model.addAttribute("list", tempService.findById(id));
-		return "temp_update";
-	}
-	
-	@PostMapping("/temp/input")
+	@PostMapping("/u/temp")
 	@ResponseBody
 	public Map<String, Object> Create(@Valid TempCreateForm tempCreateForm){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -65,7 +59,13 @@ public class TempController {
 		return map;
 	}
 	
-	@PostMapping("/temp/update/{id}")
+	@GetMapping("/u/temp/{id}/edit")
+	public String edit(@PathVariable String id, Model model){
+		model.addAttribute("list", tempService.findById(id));
+		return "temp_update";
+	}
+	
+	@PostMapping("/u/temp/{id}")
 	@ResponseBody
 	public Map<String, Object> update(@PathVariable String id, @Valid TempCreateForm tempCreateForm){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -74,7 +74,7 @@ public class TempController {
 		return map;
 	}
 	
-	@PostMapping("/temp/delete/{id}")
+	@PostMapping("/u/temp/{id}/delete")
 	@ResponseBody
 	public Map<String, Object> delete(@PathVariable String id){
 		Map<String, Object> map = new HashMap<String, Object>();

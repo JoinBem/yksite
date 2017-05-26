@@ -47,7 +47,7 @@ public class SiteController<E> {
 	protected String sessuserid = "0042dd84ff4d4246a0e3d06095392a86";
 	
 	
-	@GetMapping("/u/")
+	@GetMapping("/u")
 	public String index(){
 		return "admin";
 	}

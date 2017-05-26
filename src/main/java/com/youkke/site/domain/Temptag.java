@@ -22,7 +22,7 @@ public class Temptag {
 	@Id
 	private String id;
 	private String file;
-	@Column(length = 500)
+	private String path;
 	private String tagjson;
 	//news_10
 	@Transient
@@ -78,6 +78,14 @@ public class Temptag {
 	}
 	public void setTemplate(Template template) {
 		this.template = template;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 	
 	

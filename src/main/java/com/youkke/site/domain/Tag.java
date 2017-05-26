@@ -8,6 +8,7 @@ public class Tag {
 	public Tag(String code) {
 		this.code = code;
 		//切割
+		
 		//。。。。。。。
 	}
 	

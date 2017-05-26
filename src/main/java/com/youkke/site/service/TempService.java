@@ -47,7 +47,6 @@ public class TempService {
 		Template temp = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
 		
 		String filePath = "F://test//";
-		JSONObject jsonObject = new JSONObject();
 		for(MultipartFile element: tempCreateForm.getFile()){
 			JSONArray jsonArray = new JSONArray();
 			element.getOriginalFilename();
@@ -68,10 +67,8 @@ public class TempService {
 				e1.printStackTrace();
 			}
 			
-			String regex_html = "\\/template\\/zh_CN\\/";
-			String regex_tag = "[a-zA-Z0-9_]*\\.html";
-			Pattern pattern_html = Pattern.compile(regex_html);
-			Pattern pattern_tag = Pattern.compile(regex_tag);
+			Pattern pattern_html = Pattern.compile("\\/template\\/zh_CN\\/");
+			Pattern pattern_tag = Pattern.compile("[a-zA-Z0-9_]*\\.html");
 			Matcher matcher_html = pattern_html.matcher(fileName);
 			if(matcher_html.find()){
 				Matcher matcher_tag = pattern_tag.matcher(fileName);
@@ -88,16 +85,19 @@ public class TempService {
 				for(int i = 0; i < doc.getElementsByAttribute("yksite").size(); i++){
 					jsonArray.add(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
 				}
-				String pathfile = matcher_tag.group().replaceAll(".html", "");
-				jsonObject.put(pathfile, jsonArray.toString());
+				String path = matcher_tag.group().replaceAll(".html", "");
+				if(!jsonArray.isEmpty()){
+					Temptag tamptag = new Temptag();
+					tamptag.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+					tamptag.setTagjson(jsonArray.toString());
+					tamptag.setPath(path);
+					tamptag.setTemplate(temp);
+			        tempDao.savetag(tamptag);
+				}
 			}
+
 		}
-		Temptag tamptag = new Temptag();
-		tamptag.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-		tamptag.setTagjson(jsonObject.toString());
-		tamptag.setTemplate(temp);
-		
-        tempDao.savetag(tamptag);
+
         tempDao.savetemp(temp);
 	}
 	
