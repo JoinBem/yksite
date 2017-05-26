@@ -8,8 +8,8 @@ public class Tag {
 	public Tag(String code) {
 		this.code = code;
 		//切割
-		
-		//。。。。。。。
+		this.name = code.substring(0, code.indexOf("_"));
+		this.number = Integer.parseInt(code.substring(code.indexOf("_") + 1, code.length()));
 	}
 	
 	public String getName() {

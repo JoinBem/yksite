@@ -6,7 +6,7 @@ $(".site_delete").on("click",function(event){
 	event.preventDefault();
 	$.post($(this).attr("href") ,
 		function(data){
-			window.location.href = "/site";
+			window.location.href = "/u/sites";
 		});
 }); 
 
@@ -18,7 +18,7 @@ $('.site_input').on("click", function(){
 			alert("域名已存在");
 		}
 		alert("保存成功");
-		window.location.href = "/site";
+		window.location.href = "/u/sites";
 	});
 });
 
@@ -26,7 +26,7 @@ $('.site_update').on("click", function(){
 	var data = $(this).parents("form").serialize();
 	var url = $(this).parents("form").attr("action");
 	$.post(url, data, function(data){
-		window.location.href = "/site";
+		window.location.href = "/u/sites";
 	});
 });
 

@@ -111,6 +111,14 @@ public class Template {
 		this.site = site;
 	}
 
+	public List<Temptag> getTemptag() {
+		return temptag;
+	}
+
+	public void setTemptag(List<Temptag> temptag) {
+		this.temptag = temptag;
+	}
+
 	
 	
 }

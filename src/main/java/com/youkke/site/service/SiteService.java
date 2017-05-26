@@ -65,7 +65,7 @@ public class SiteService {
 	
 
    
-   public List<Site> findurl(String url){
-	   return siteDao.findurl(url);
+   public List<Site> findurl(String url, String path){
+	   return siteDao.findurl(url, path);
    }
 }

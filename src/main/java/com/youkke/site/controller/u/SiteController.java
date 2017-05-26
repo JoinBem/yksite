@@ -1,45 +1,25 @@
 package com.youkke.site.controller.u;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.JFileChooser;
 import javax.validation.Valid;
-import javax.xml.ws.spi.http.HttpContext;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.youkke.site.domain.Site;
-import com.youkke.site.domain.Template;
-import com.youkke.site.domain.Temptag;
 import com.youkke.site.service.SiteService;
-import com.youkke.site.service.TempService;
-import com.youkke.site.utils.ServiceException;
 
 @Controller
-public class SiteController<E> {
+public class SiteController {
 
 	@Autowired
 	private SiteService siteService;
@@ -66,7 +46,7 @@ public class SiteController<E> {
 	
 	@PostMapping("/u/site")
 	@ResponseBody
-	public void create(@Valid SiteCreateForm siteCreateForm){
+	public void sava(@Valid SiteCreateForm siteCreateForm){
 		JSONArray jsonArray = new JSONArray();
 		jsonArray.add(siteCreateForm.getDomain().get(0));
 		//Template template = new Template(sessuserid, siteCreateForm.getTempname(), siteCreateForm.getTemptitle(), jsonArray.toString(), siteCreateForm.getTempcontent(), "yes", 10000d);

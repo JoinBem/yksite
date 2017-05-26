@@ -1,6 +1,5 @@
 package com.youkke.site.controller.u;
 
-import java.io.File;
 import java.util.List;
 
 public class SiteCreateForm {
