@@ -79,9 +79,11 @@ public class SiteService {
    public List<Tag> findCurrentTags(String url,String path){
 	   List<Tag> tags = new ArrayList<Tag>();
 	   Site site = siteDao.findByDomain(url);
-	   Temptag temptag = siteDao.findByPath(site.getTemplate(), path);
-	   if(temptag != null){
-		   tags = temptag.getTags();
+	   if(site != null){
+		   Temptag temptag = siteDao.findByPath(site.getTemplate(), path);
+		   if(temptag != null){
+			   tags = temptag.getTags(); 
+		   }
 	   }
 	   return tags;
    }

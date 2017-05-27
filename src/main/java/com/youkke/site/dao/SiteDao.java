@@ -19,6 +19,7 @@ import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Tag;
 import com.youkke.site.domain.Template;
 import com.youkke.site.domain.Temptag;
+import com.youkke.site.utils.ServiceException;
 @Component
 @Transactional
 public class SiteDao {

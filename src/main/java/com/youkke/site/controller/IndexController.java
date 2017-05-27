@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Tag;
@@ -19,17 +21,17 @@ public class IndexController {
 	@Autowired
 	private SiteService siteService;
 	
-	@GetMapping("/*")
+	@GetMapping(value = "/{provinceId:[a-zA-Z_]{0,10}}")
 	public String test(HttpServletRequest request, Model model){
         String domain =request.getServerName(); 
 		String path = request.getRequestURI().replaceAll("/", "");
 		List<Tag> tags = siteService.findCurrentTags(domain, path);
 		if(tags != null){
 			for(Tag item : tags){
-				System.err.println(item.getName());	
+				System.err.println(item.getName());
 				System.err.println(item.getNumber());
 			}
-		}
+		}System.err.println(tags);
 		return "index";
 	}
 	
