@@ -87,11 +87,14 @@ public class SiteDao {
 	}
 	
 	public Temptag findByPath(Template template, String path){
-		try{
+		try{			
 			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Temptag> criteria = builder.createQuery(Temptag.class);
 			Root<Temptag> root = criteria.from(Temptag.class);
-			criteria.where(builder.equal(root.get("path"), path));
+			Predicate conditionForPath = builder.equal(root.get("path"), path);
+		    Predicate conditionForTemplateid = builder.equal(root.get("template"), template);
+		    Predicate condition = builder.and(conditionForPath,conditionForTemplateid);
+			criteria.where(condition);
 			Temptag temptag = entityManager.createQuery(criteria).getSingleResult();
 			return temptag;
 		}catch(Exception e){
