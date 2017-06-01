@@ -53,6 +53,7 @@ public class TempService {
 			String fileName = element.getOriginalFilename();
 			//System.err.println(fileName);
 			File dest = new File(filePath + fileName);
+			System.err.println(filePath + fileName);
 			// 检测是否存在目录
 	        if (!dest.getParentFile().exists()) {
 	            dest.getParentFile().mkdirs();
@@ -86,12 +87,14 @@ public class TempService {
 					jsonArray.add(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
 				}
 				String path = matcherTag.group().replaceAll(".html", "");
+				String file = filePath + fileName;
 				if(!jsonArray.isEmpty()){
 					Temptag tamptag = new Temptag();
 					tamptag.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 					tamptag.setTagjson(jsonArray.toString());
 					tamptag.setPath(path);
 					tamptag.setTemplate(temp);
+					tamptag.setFile(file);
 			        tempDao.savetag(tamptag);
 				}
 			}

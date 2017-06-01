@@ -73,10 +73,11 @@ $(".temp_delete").on("click",function(event){
 
 var files = [];
 $(document).ready(function(){
-  $("*[name='file']").change(function(){
+  $("*[name='file']").change(function(e){
+	  console.log(location.href);
     files = this.files;
     for (var i = 0; i < files.length; i++) {
-        console.log(files[i]);
+        //console.log(files[i]);
       }
   });
 });
