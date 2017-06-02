@@ -1,4 +1,4 @@
-package com.youkke.site.controller;
+ package com.youkke.site.controller;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class IndexController {
 				System.err.println(item.getName());
 				System.err.println(item.getNumber());
 			}
-		}System.err.println(tags);
+		}
 		return "index";
 	}
 	

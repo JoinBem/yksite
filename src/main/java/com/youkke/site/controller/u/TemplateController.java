@@ -1,11 +1,13 @@
 package com.youkke.site.controller.u;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +41,7 @@ public class TemplateController {
 	
 	@PostMapping("/u/temp")
 	@ResponseBody
-	public Map<String, Object> Create(@Valid TemplateCreateForm tempCreateForm){
+	public Map<String, Object> Create(@Valid TemplateCreateForm tempCreateForm) throws IllegalStateException, GitAPIException, IOException{
 		Map<String, Object> map = new HashMap<String, Object>();
 		tempService.savetemp(tempCreateForm);
 		return map;

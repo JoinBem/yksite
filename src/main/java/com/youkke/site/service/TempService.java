@@ -2,6 +2,7 @@ package com.youkke.site.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +14,24 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CloneCommand;
+import org.eclipse.jgit.api.CommitCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.InitCommand;
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +47,7 @@ import com.youkke.site.dao.TempDao;
 import com.youkke.site.domain.Site;
 import com.youkke.site.domain.Template;
 import com.youkke.site.domain.Temptag;
+import com.youkke.site.utils.GitUtilClass;
 import com.youkke.site.utils.ServiceException;
 
 @Component
@@ -43,7 +63,9 @@ public class TempService {
 		tempDao.savetag(tag);
 	}
 	
-	public void savetemp(TemplateCreateForm tempCreateForm){
+	
+    public static String localRepoGitConfig = "D:/Apache24/htdocs/www.1388168.com/.git";
+	public void savetemp(TemplateCreateForm tempCreateForm) throws IllegalStateException, GitAPIException, IOException{
 		Template temp = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
 		
 		String filePath = "F://test//";
@@ -97,6 +119,75 @@ public class TempService {
 			}
 
 		}
+/*        String name = "Lin_jintao";
+        String password = "lyt@20-20131s";
+        String REMOTE_URL = "http://git.15913.com/Blace/lin";
+
+        // credentials
+        CredentialsProvider cp = new UsernamePasswordCredentialsProvider(name, password);
+
+        File localPath = File.createTempFile("/path/to/repo", "");
+         if(!localPath.delete()) {
+             throw new IOException("Could not delete temporary file " + localPath);
+         }
+
+         System.setProperty("javax.net.ssl.trustStore","cacerts.jks");
+         //someone suggested me to add above code and add a certificate to truststore
+           Git git = Git.cloneRepository()
+                 .setURI(REMOTE_URL)
+                 .setDirectory(localPath)
+                 .setCredentialsProvider(cp)
+                 .call();*/
+		String  pathName = "www.1388168.com";
+		Repository repo = null;
+		String path = "D:/Apache24/htdocs/www.1388168.com"; // 设置git仓库的路径
+		 InitCommand init = new InitCommand();
+		 // 设置路径
+		 init.setBare(false).setDirectory(new File(path));
+		 // 执行git init ，创建仓库
+	        Git git;
+		 try {
+		      git = init.call(); // 创建仓库
+		      repo = git.getRepository();
+		      System.out.println("create repo success");
+		 } catch (GitAPIException e) {
+		      e.printStackTrace();
+		 }
+		 // 执行 git remote add 命令
+		 // 实例化一个RemoteConfig 对象，用户配置远端仓库
+		 StoredConfig config = repo.getConfig();
+		 try {
+		 RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
+		 // 设置你的远端地址
+		 URIish url = new URIish("http://git.15913.com/Blace/"+pathName+".git");
+		 // 设置哪个分支
+		 RefSpec refSpec = new RefSpec("+refs/head/*:refs/remotes/origin/*");
+		 // 更新配置
+		 remoteConfig.addFetchRefSpec(refSpec);
+		 remoteConfig.addURI(url);
+		 // 更新配置
+		 remoteConfig.update(config);
+		 // 保存到本地文件中
+		 config.save();
+		 System.out.println("git remote add success.");
+	      String files="D:/Apache24/htdocs/www.1388168.com";
+	      Git gits = Git.open( new File(localRepoGitConfig) );
+	        //创建用户文件的过程
+	        File myfile = new File(files);
+	        myfile.createNewFile();
+	        gits.add().addFilepattern(".").call();
+	        //提交
+	        gits.commit().setMessage("Added pets").call();   
+	        //推送到远程
+	        gits.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider("Lin_jintao", "lyt@20-20131s")).setRemote("origin").call();
+	        System.err.println("success");
+		 } catch (URISyntaxException e) {
+		    e.printStackTrace();
+		
+		 } catch (IOException e) {
+		    e.printStackTrace();
+		 }
+		 
 
         tempDao.savetemp(temp);
 	}
