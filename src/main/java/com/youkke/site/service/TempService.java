@@ -75,6 +75,7 @@ public class TempService {
 			String fileName = element.getOriginalFilename();
 			//System.err.println(fileName);
 			File dest = new File(filePath + fileName);
+			System.err.println(filePath + fileName);
 			// 检测是否存在目录
 	        if (!dest.getParentFile().exists()) {
 	            dest.getParentFile().mkdirs();
@@ -108,12 +109,14 @@ public class TempService {
 					jsonArray.add(doc.getElementsByAttribute("yksite").get(i).attr("yksite"));
 				}
 				String path = matcherTag.group().replaceAll(".html", "");
+				String file = filePath + fileName;
 				if(!jsonArray.isEmpty()){
 					Temptag tamptag = new Temptag();
 					tamptag.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 					tamptag.setTagjson(jsonArray.toString());
 					tamptag.setPath(path);
 					tamptag.setTemplate(temp);
+					tamptag.setFile(file);
 			        tempDao.savetag(tamptag);
 				}
 			}
@@ -149,7 +152,7 @@ public class TempService {
 		 try {
 		      git = init.call(); // 创建仓库
 		      repo = git.getRepository();
-		      System.out.println("create repo success");
+		      System.err.println("create repo success");
 		 } catch (GitAPIException e) {
 		      e.printStackTrace();
 		 }
@@ -169,7 +172,7 @@ public class TempService {
 		 remoteConfig.update(config);
 		 // 保存到本地文件中
 		 config.save();
-		 System.out.println("git remote add success.");
+		  System.err.println("git remote add success.");
 	      String files="D:/Apache24/htdocs/www.1388168.com";
 	      Git gits = Git.open( new File(localRepoGitConfig) );
 	        //创建用户文件的过程
