@@ -64,21 +64,18 @@ public class TempService {
 	}
 	
 	
-    public static String localRepoGitConfig = "D:/Apache24/htdocs/www.1388168.com/.git";
 	public void savetemp(TemplateCreateForm tempCreateForm) throws IllegalStateException, GitAPIException, IOException{
 		Template temp = new Template(sessuserid, tempCreateForm.getTempname(), tempCreateForm.getTemptitle(), "test", tempCreateForm.getTempcontent(), "yes", Double.parseDouble(tempCreateForm.getTempprice()));
-		
 		String filePath = "F://test//";
 		for(MultipartFile element: tempCreateForm.getFile()){
 			JSONArray jsonArray = new JSONArray();
-			element.getOriginalFilename();
 			String fileName = element.getOriginalFilename();
-			//System.err.println(fileName);
+			System.err.println(fileName);
 			File dest = new File(filePath + fileName);
-			System.err.println(filePath + fileName);
 			// 检测是否存在目录
 	        if (!dest.getParentFile().exists()) {
 	            dest.getParentFile().mkdirs();
+	            
 	        }
 			try {
 				element.transferTo(dest);
@@ -118,32 +115,18 @@ public class TempService {
 					tamptag.setTemplate(temp);
 					tamptag.setFile(file);
 			        tempDao.savetag(tamptag);
+
 				}
 			}
-
 		}
-/*        String name = "Lin_jintao";
-        String password = "lyt@20-20131s";
-        String REMOTE_URL = "http://git.15913.com/Blace/lin";
-
-        // credentials
-        CredentialsProvider cp = new UsernamePasswordCredentialsProvider(name, password);
-
-        File localPath = File.createTempFile("/path/to/repo", "");
-         if(!localPath.delete()) {
-             throw new IOException("Could not delete temporary file " + localPath);
-         }
-
-         System.setProperty("javax.net.ssl.trustStore","cacerts.jks");
-         //someone suggested me to add above code and add a certificate to truststore
-           Git git = Git.cloneRepository()
-                 .setURI(REMOTE_URL)
-                 .setDirectory(localPath)
-                 .setCredentialsProvider(cp)
-                 .call();*/
-		String  pathName = "www.1388168.com";
+		String OriginalFilename = tempCreateForm.getFile().get(0).getOriginalFilename();
+		String templateName = OriginalFilename.substring(0, OriginalFilename.indexOf("/"));
+		//得到上传的模板名
 		Repository repo = null;
-		String path = "D:/Apache24/htdocs/www.1388168.com"; // 设置git仓库的路径
+		String path = filePath + templateName;
+		//配置git文件路径
+		String localGitConfig =path+"/.git";
+        //git 文件路径
 		 InitCommand init = new InitCommand();
 		 // 设置路径
 		 init.setBare(false).setDirectory(new File(path));
@@ -162,7 +145,7 @@ public class TempService {
 		 try {
 		 RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
 		 // 设置你的远端地址
-		 URIish url = new URIish("http://git.15913.com/Blace/"+pathName+".git");
+		 URIish url = new URIish("http://git.15913.com/Blace/"+templateName+".git");
 		 // 设置哪个分支
 		 RefSpec refSpec = new RefSpec("+refs/head/*:refs/remotes/origin/*");
 		 // 更新配置
@@ -173,10 +156,9 @@ public class TempService {
 		 // 保存到本地文件中
 		 config.save();
 		  System.err.println("git remote add success.");
-	      String files="D:/Apache24/htdocs/www.1388168.com";
-	      Git gits = Git.open( new File(localRepoGitConfig) );
+	      Git gits = Git.open( new File(localGitConfig) );
 	        //创建用户文件的过程
-	        File myfile = new File(files);
+	        File myfile = new File(path);
 	        myfile.createNewFile();
 	        gits.add().addFilepattern(".").call();
 	        //提交
@@ -191,7 +173,7 @@ public class TempService {
 		    e.printStackTrace();
 		 }
 		 
-
+		
         tempDao.savetemp(temp);
 	}
 	
